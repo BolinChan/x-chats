@@ -3,9 +3,7 @@
 		onLaunch: function() {
 			// #ifdef APP-PLUS
 			if (process.env.NODE_ENV === 'development') {
-				uni.setKeepScreenOn({
-					keepScreenOn: true
-				});
+				uni.setKeepScreenOn({ keepScreenOn: true });
 			} else {
 				this.$tools.updateWgt();
 			}

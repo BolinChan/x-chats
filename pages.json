@@ -1,16 +1,79 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"globalStyle": {
+		"navigationBarBackgroundColor": "#F7F7F7",
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "x-chats",
+		"backgroundColorTop": "#FFFFFF",
+		"backgroundColorBottom": "#FFFFFF",
+		"pageOrientation": "portrait",
+		"app-plus": {
+			"bounce": "vertical",
+			"softinputNavBar": "none",
+			"scrollIndicator": "none"
+		}
+	},
+	"tabBar": {
+		"color": "#959595",
+		"selectedColor": "#367CDC",
+		"backgroundColor": "#F7F7F7",
+		"borderStyle": "white",
+		"list": [
+			{
+				"pagePath": "pages/chats/chats",
+				"text": "Chats",
+				"iconPath": "static/tabbar/chats.png",
+				"selectedIconPath": "static/tabbar/chats_selected.png"
+			},
+			{
+				"pagePath": "pages/contacts/contacts",
+				"text": "Contacts",
+				"iconPath": "static/tabbar/contacts.png",
+				"selectedIconPath": "static/tabbar/contacts_selected.png"
+			},
+			{
+				"pagePath": "pages/settings/settings",
+				"text": "Settings",
+				"iconPath": "static/tabbar/settings.png",
+				"selectedIconPath": "static/tabbar/settings_selected.png"
+			}
+		]
+	},
+	"pages": [
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/chats/chats",
+			"style": {
+				"navigationBarTitleText":"Chats",
+				"app-plus":{
+					"titleNView":{
+						"buttons":[
+							{
+								"background": "rgba(0,0,0,0)",
+								"fontSize":"22px",
+								"fontSrc":"static/icon.ttf",
+								"text":"\ue809"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/contacts/contacts",
+			"style": {
+				"navigationBarTitleText":"Contacts"
+			}
+		},
+		{
+			"path": "pages/settings/settings",
+			"style": {
+				"navigationBarTitleText":"Settings"
 			}
 		}
-	],
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
-	}
+	]
 }

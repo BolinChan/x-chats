@@ -3,7 +3,9 @@
 		onLaunch: function() {
 			// #ifdef APP-PLUS
 			if (process.env.NODE_ENV === 'development') {
-				uni.setKeepScreenOn({ keepScreenOn: true });
+				uni.setKeepScreenOn({
+					keepScreenOn: true
+				});
 			} else {
 				this.$tools.updateWgt();
 			}
@@ -34,11 +36,13 @@
 		background-size: 100% auto;
 	}
 
-	image {
+	image,
+	video {
 		width: 100%;
 	}
 
 	view,
+	button,
 	input,
 	textarea {
 		box-sizing: border-box;
@@ -79,6 +83,7 @@
 		box-shadow: none;
 		margin: 0;
 		font-size: $body-size;
+		height: 88rpx;
 		border-radius: 44rpx;
 		display: flex;
 		justify-content: center;
@@ -98,6 +103,17 @@
 
 	.button-hover[type='primary'] {
 		background: $main-color;
+	}
+	
+	button[type='default'] {
+		background: none;
+		color: $main-color;
+		border: 2rpx solid $main-color;
+	}
+	
+	.button-hover[type='default'] {
+		background: none;
+		color: $main-color;
 	}
 
 	.x-header {
@@ -177,12 +193,18 @@
 	.x-link {
 		color: $main-color;
 	}
-	
+
 	.x-desc {
 		color: $info-color;
 	}
 
 	.x-btn-area {
 		padding: 60rpx 30rpx;
+	}
+	
+	.x-square{
+		padding-bottom: 100%;
+		height: 0;
+		word-wrap: break-word;
 	}
 </style>

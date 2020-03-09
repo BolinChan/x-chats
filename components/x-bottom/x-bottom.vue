@@ -1,6 +1,6 @@
 <template>
-	<view class="x-bottom" :class="{ 'x-safearea': safearea }">
-		<view class="box"><slot></slot></view>
+	<view class="x-bottom" :class="{ 'x-safearea': safearea }" :style="{ backgroundColor }">
+		<slot></slot>
 	</view>
 </template>
 
@@ -11,6 +11,10 @@
 			safearea: {
 				type: Boolean,
 				default: true
+			},
+			backgroundColor:{
+				type: String,
+				default:'#FFFFFF'
 			}
 		}
 	};
@@ -18,12 +22,8 @@
 
 <style scoped lang="scss">
 	.x-bottom {
-		background-color: #fff;
 		position: fixed;
 		left: 0;
 		right: 0;
-		.box {
-			min-height: $tabbar-hei;
-		}
 	}
 </style>

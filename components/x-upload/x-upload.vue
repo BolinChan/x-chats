@@ -30,8 +30,8 @@
 				const sourceType = this.type;
 				const payload = sourceType && sourceType.length > 0 ? { sourceType } : {};
 				const res = await this.$tools.chooseImage(1, payload);
-				this.$emit('change', res);
 				if (res && !res.err) {
+					this.$emit('change', res);
 					const url = res.data[0];
 					this.thumb = url;
 					this.upload(url);

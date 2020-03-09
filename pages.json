@@ -48,24 +48,44 @@
 		{
 			"path": "pages/chats/chats",
 			"style": {
-				"navigationBarTitleText":"Chats",
-				"app-plus":{
-					"titleNView":{
-						"buttons":[
-							{
-								"fontSize":"22px",
-								"fontSrc":"static/icon.ttf",
-								"text":"\ue809"
-							}
-						]
-					}
-				}
+				"navigationBarTitleText":"Chats"
+				// "app-plus":{
+				// 	"titleNView":{
+				// 		"buttons":[
+				// 			{
+				// 				"fontSize":"22px",
+				// 				"fontSrc":"static/icon.ttf",
+				// 				"color":"#367CDC",
+				// 				"text":"\ue9a1"
+				// 			}
+				// 		]
+				// 	}
+				// }
 			}
 		},
 		{
 			"path": "pages/contacts/contacts",
 			"style": {
 				"navigationBarTitleText":"Contacts"
+				// "app-plus":{
+				// 	"titleNView":{
+				// 		"buttons":[
+				// 			{
+				// 				"float":"left",
+				// 				"fontSize":"22px",
+				// 				"fontSrc":"static/icon.ttf",
+				// 				"color":"#367CDC",
+				// 				"text":"\ue78a"
+				// 			},
+				// 			{
+				// 				"fontSize":"22px",
+				// 				"fontSrc":"static/icon.ttf",
+				// 				"color":"#367CDC",
+				// 				"text":"\ue9a1"
+				// 			}
+				// 		]
+				// 	}
+				// }
 			}
 		},
 		{

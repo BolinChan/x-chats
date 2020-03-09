@@ -1,6 +1,6 @@
 <template>
-	<view>
-		
+	<view class="chats">
+		chats
 	</view>
 </template>
 
@@ -14,6 +14,8 @@
 	}
 </script>
 
-<style lang="scss">
-
+<style scoped lang="scss">
+	.chats{
+		
+	}
 </style>

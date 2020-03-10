@@ -16,7 +16,7 @@
 		"color": "#959595",
 		"selectedColor": "#367CDC",
 		"backgroundColor": "#F7F7F7",
-		"borderStyle": "white",
+		"borderStyle": "#F7F7F7",
 		"list": [
 			{
 				"pagePath": "pages/chats/chats",
@@ -48,44 +48,55 @@
 		{
 			"path": "pages/chats/chats",
 			"style": {
-				"navigationBarTitleText":"Chats"
-				// "app-plus":{
-				// 	"titleNView":{
-				// 		"buttons":[
-				// 			{
-				// 				"fontSize":"22px",
-				// 				"fontSrc":"static/icon.ttf",
-				// 				"color":"#367CDC",
-				// 				"text":"\ue9a1"
-				// 			}
-				// 		]
-				// 	}
-				// }
+				"navigationBarTitleText":"Chats",
+				"backgroundColorTop":"#F7F7F7",
+				"app-plus":{
+					"titleNView":{
+						"buttons":[
+							{
+								"fontSize":"22px",
+								"fontSrc":"static/icon.ttf",
+								"text":"\ue78a"
+							}
+						]
+					}
+				}
 			}
 		},
 		{
 			"path": "pages/contacts/contacts",
 			"style": {
-				"navigationBarTitleText":"Contacts"
-				// "app-plus":{
-				// 	"titleNView":{
-				// 		"buttons":[
-				// 			{
-				// 				"float":"left",
-				// 				"fontSize":"22px",
-				// 				"fontSrc":"static/icon.ttf",
-				// 				"color":"#367CDC",
-				// 				"text":"\ue78a"
-				// 			},
-				// 			{
-				// 				"fontSize":"22px",
-				// 				"fontSrc":"static/icon.ttf",
-				// 				"color":"#367CDC",
-				// 				"text":"\ue9a1"
-				// 			}
-				// 		]
-				// 	}
-				// }
+				"navigationBarTitleText":"Contacts",
+				"backgroundColorTop":"#F7F7F7",
+				"app-plus":{
+					"titleNView":{
+						"buttons":[
+							{
+								"fontSize":"22px",
+								"fontSrc":"static/icon.ttf",
+								"text":"\ue7ca"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+		    "path" : "pages/console/console",
+		    "style" : {
+				"navigationBarTitleText":"",
+				"backgroundColorTop":"#F7F7F7",
+				"app-plus":{
+					"titleNView":{
+						"buttons":[
+							{
+								"fontSize":"22px",
+								"fontSrc":"static/icon.ttf",
+								"text":"\ue887"
+							}
+						]
+					}
+				}
 			}
 		},
 		{
@@ -94,5 +105,5 @@
 				"navigationBarTitleText":"Settings"
 			}
 		}
-	]
+    ]
 }

@@ -40,8 +40,8 @@ $line-color: $gray-5;
 $navbar-hei: 44px;
 $tabbar-hei: 50px;
 $radius: 15rpx;
-$main-color: #33c7d4;
-$second-color: #07848f;
+$main-color: #367CDC;
+$second-color: $blue;
 $linear: linear-gradient(to right, $second-color, $main-color);
 
 // @include x-ellipsis(lines)

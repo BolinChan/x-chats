@@ -52,15 +52,24 @@ export const toast = (title = "", icon = "none", payload = {}) => {
 };
 
 // loading提示框(≤30s)
+let delay = null;
 let timer = null;
 export const loading = (title = "", mask = true) => {
 	hideLoading();
-	uni.showLoading({ title, mask, success: startLoading });
+	delay = setTimeout(() => {
+		clearTimeout(delay);
+		delay = null;
+		uni.showLoading({ title, mask, success: startLoading });
+	}, 300);
 };
 const startLoading = () => {
 	timer = setTimeout(hideLoading, 30000);
 };
 export const hideLoading = () => {
+	if(delay){
+		clearTimeout(delay);
+		delay = null;
+	}
 	if (timer) {
 		clearTimeout(timer);
 		timer = null;
@@ -107,37 +116,35 @@ export const openURL = url => new Promise((resolve) => {
 	plus.runtime.openURL(url, () => resolve({ err: true, msg: "打开失败，请确保应用已安装！", data: "" }));
 });
 
-// wgt更新
+// 更新APPwgt文件
 export const updateWgt = () => {
-	plus.runtime.getProperty(plus.runtime.appid, async (widgetInfo) => {
-		const res = await fetch(config.wgt_url, widgetInfo);
-		if (res && !res.err) {
-			const { update, wgtUrl } = res.data;
-			if (update && wgtUrl) {
-				uni.showLoading({ title: "正在更新，请稍候~", mask: true });
-				const { err, data } = await download(wgtUrl);
-				uni.hideLoading();
-				if (err) {
-					uploadFail();
-				} else {
-					plus.runtime.install(
-						data, { force: false },
-						() => {
-							uni.showLoading({ title: "更新成功，正在重启~" });
-							setTimeout(() => plus.runtime.restart(), 1000)
-						},
-						() => uploadFail()
-					);
+	return new Promise(async (reslove, reject) => {
+		plus.runtime.getProperty(plus.runtime.appid, async (widgetInfo) => {
+			let res = await fetch(config.wgt_url, widgetInfo);
+			const { data, err, msg } = res;
+			if (!err) {
+				const { update, wgtUrl } = data;
+				if (update && wgtUrl) {
+					uni.showLoading({ title: '正在更新，请稍后', mask: true });
+					uni.hideLoading();
+					plus.downloader.createDownload(
+						wgtUrl, 
+						{ filename: '_doc/update/' + widgetInfo.name + '/' + new Date().getTime() + '/' },
+						(res, code) => {
+							uni.hideLoading();
+							plus.runtime.install(
+								res.filename, 
+								{ force: false },
+								(res) => { plus.runtime.restart() },
+								(e) => { uni.redirectTo({ url: '/pages/index/index' }) }
+							);
+						}
+					).start();
 				}
 			} else {
-				uploadFail();
+				uni.hideLoading();
+				uni.redirectTo({ url: '/pages/index/index' });
 			}
-		} else {
-			uploadFail();
-		}
+		});
 	});
-};
-
-const uploadFail = () => {
-	uni.reLaunch({ url: "/pages/index/index" });
 }

@@ -20,13 +20,15 @@
 
 <style scoped lang="scss">
 	.contacts{
-		.search-bar{
+		.search-bar {
 			background-color: #F7F7F7;
-			padding: 20rpx 30rpx;
-			.ipt{
-				background-color: rgb(233, 233, 233);
+			height: $tabbar-hei;
+			padding: 10px 30rpx;
+		
+			.ipt {
+				background-color: #E9E9E9;
 				height: 30px;
-				border-radius: 15rpx;
+				border-radius: $radius;
 			}
 		}
 	}

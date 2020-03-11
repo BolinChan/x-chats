@@ -29,7 +29,7 @@
 	}
 
 	view {
-		position: relative;
+		// position: relative;
 		background-repeat: no-repeat;
 		background-size: 100% auto;
 	}

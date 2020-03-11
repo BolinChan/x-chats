@@ -7,13 +7,7 @@
 		</view>
 		<view v-if="list">
 			<view class="list" v-if="list.length">
-				<view 
-					class="x-row item" 
-					hover-class="item-hover" 
-					v-for="(item, index) in list" 
-					:key="index" 
-					@click="$toNav('console', { userid: index })"
-				>
+				<view class="x-row item" hover-class="item-hover" v-for="(item, index) in list" :key="index" @click="$toNav('console', { userid: index })">
 					<view class="thumb">
 						<x-thumb src="https://img.la/110x110" size="110"></x-thumb>
 					</view>
@@ -68,12 +62,13 @@
 	.chats {
 		.search-bar {
 			background-color: #F7F7F7;
-			padding: 20rpx 30rpx;
+			height: $tabbar-hei;
+			padding: 10px 30rpx;
 
 			.ipt {
-				background-color: rgb(233, 233, 233);
+				background-color: #E9E9E9;
 				height: 30px;
-				border-radius: 15rpx;
+				border-radius: $radius;
 			}
 		}
 

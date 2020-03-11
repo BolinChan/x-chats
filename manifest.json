@@ -17,9 +17,9 @@
             "delay" : 0
         },
         "safearea" : {
-            "background" : "#FFFFFF",
+            "background" : "#F7F7F7",
             "bottom" : {
-                "offset" : "none"
+                "offset" : "auto"
             },
             "left" : {
                 "offset" : "none"

@@ -85,8 +85,8 @@
 		    "path" : "pages/console/console",
 		    "style" : {
 				"navigationBarTitleText":"",
-				"backgroundColorTop":"#F7F7F7",
 				"app-plus":{
+					"bounce":"none",
 					"titleNView":{
 						"buttons":[
 							{

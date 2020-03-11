@@ -9,16 +9,29 @@
 			:scroll-into-view="scrollToView" 
 			:scroll-with-animation="scrollAnimation" 
 			:enable-back-to-top="false"
-			:show-scrollbar="false" 
+			:show-scrollbar="false"
 			@scrolltoupper="scrolltoupper" 
 			@scrolltolower="scrolltolower"
 		>
-			<view class="x-row msg" v-for="(item, index) in msg" :key="index" :id="`msg${index}`">
-				<x-thumb src="https://img.la/88x88"></x-thumb>
-				<view class="context">dsadsadsadasdsadasdasdsa{{index}}</view>
+			<view class="container">
+				<view
+					class="x-row msg"
+					:class="{ 'reversal': item.status === 'sended' }"
+					v-for="(item, index) in msg" 
+					:key="index" 
+					:id="`msg${index}`"
+				>
+					<view class="avatar" v-if="item.status === 'received'">
+						<x-thumb :src="item.avatar" size="80"></x-thumb>
+					</view>
+					<view class="context">{{item.content}}</view>
+				</view>
 			</view>
 		</scroll-view>
 		<view class="x-bottom x-row edit-bar">
+			<view class="action" @click="chooseImage">
+				<image src="/static/console/plus.png" mode="widthFix"></image>
+			</view>
 			<textarea 
 				placeholder="Message" 
 				:auto-height="true" 
@@ -35,7 +48,7 @@
 </template>
 
 <script>
-	import msg from './../../data';
+	import msgList from '../../data';
 	export default {
 		data() {
 			return {
@@ -46,6 +59,7 @@
 			};
 		},
 		onLoad() {
+			this.$tools.loading();
 			setTimeout(()=>{
 				this.fetchData();
 			}, 1000);
@@ -55,8 +69,9 @@
 		// },
 		methods: {
 			fetchData() {
+				this.$tools.hideLoading();
 				uni.setNavigationBarTitle({ title: "好友" });
-				this.msg = msg;
+				this.msg = msgList;
 				this.$nextTick(function(){
 					this.scrollTop = 9999;
 					this.$nextTick(function() {
@@ -66,19 +81,7 @@
 				// if (this._props && this._props.hasOwnProperty('userid')) {
 				// 	const { userid } = this._props;
 				// 	uni.setNavigationBarTitle({ title: `好友${userid+1}` });
-				// 	this.msg = new Array(15);
-				// 	this.msg = [
-				// 		{
-				// 			type: 'text',
-				// 			constent: '在吗？',
-				// 			status: 'sended'
-				// 		},
-				// 		{
-				// 			type: 'text',
-				// 			constent: "waht's up?",
-				// 			status: 'received'
-				// 		}
-				// 	];
+				//  this.msg = msgList;
 				// } else {
 				// 	this.$tools.toast('好友不存在或已删除！');
 				// 	setTimeout(() => {
@@ -92,14 +95,21 @@
 			scrolltolower(){
 				
 			},
-			//滚动到底部
+			// 选取照片
+			async chooseImage(){
+				const { err, data } = await this.$tools.chooseImage();
+				if(!err){
+					console.log(data[0]);
+				}
+			},
+			// 滚动到底部
 			scrollToBottom(){
 				const msg = this.msg;
 				if(msg && msg.length){
 					this.scrollToView = `msg${msg.length - 1}`;
 				}
 			},
-			//重置scrollToView
+			// 重置scrollToView
 			reset(){
 				this.scrollToView = '';
 			}
@@ -116,9 +126,33 @@
 			right: 0;
 			top: 0;
 			bottom: $tabbar-hei;
-			.msg{
-				padding: 30rpx;
-				align-items: flex-start;
+			.container{
+				padding: 15rpx;
+				.msg{
+					padding: 15rpx;
+					align-items: flex-start;
+					.avatar{
+						padding-right: 20rpx;
+					}
+					.context{
+						background-color: #E9E9E9;
+						line-height: 40rpx;
+						padding: 20rpx;
+						min-height: 80rpx;
+						position: relative;
+						border-radius: $radius;
+						overflow: hidden;
+						word-wrap: break-word;
+					}
+				}
+				.reversal{
+					flex-direction: row-reverse;
+					.context{
+						background-color: $main-color;
+						color: #FFFFFF;
+						max-width: calc(750rpx - 60rpx - 80rpx - 20rpx);
+					}
+				}
 			}
 		}
 		.edit-bar{
@@ -129,6 +163,15 @@
 			min-height: $tabbar-hei;
 			padding: 10px 30rpx;
 			background-color: #F7F7F7;
+			.action{
+				width: $basehei;
+				height: $basehei;
+				margin-right: 20rpx;
+				image{
+					width: $basehei;
+					height: $basehei;
+				}
+			}
 			textarea{
 				background-color: #FFFFFF;
 				min-height: $basehei;

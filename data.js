@@ -3,9 +3,17 @@ export default [
 		avatar: '/static/logo.png',
 		nick: '好友A',
 		time: '2020-03-11 13:49:44',
-		content: '在吗？',
+		content: '在吗？在吗？在吗？在吗？在吗？在吗？在吗？在吗？在吗？',
 		type:'text',
 		status:'received'
+	},
+	{
+		avatar: 'https://img.la/88x88',
+		nick: '小明',
+		time: '2020-03-11 13:49:50',
+		content: '？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？？',
+		type:'text',
+		status:'sended'
 	},
 	{
 		avatar: '/static/logo.png',
@@ -19,7 +27,7 @@ export default [
 		avatar: '/static/logo.png',
 		nick: '好友A',
 		time: '2020-03-11 13:51:44',
-		content: '能不能借我2W？下个月按万五的息还给你',
+		content: '能不能借我2W？！下个月按万五的利息还给你',
 		type:'text',
 		status:'received'
 	},

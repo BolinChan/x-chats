@@ -27,6 +27,12 @@ export const getStorageSync = (key) => {
 };
 
 // 选择图片
+/**
+ * @description 选择图片
+ * @param {number=}  count
+ * @param {Object=}  payload
+ * @return {Object}
+ */
 export const chooseImage = (count = 1, payload = {}) => new Promise((resolve) => {
 	uni.chooseImage({
 		count,

@@ -1,20 +1,31 @@
 <template>
 	<view class="console">
-		<scroll-view
-			class="msgs"
-			:scroll-y="true"
+		<scroll-view 
+			class="msgs" 
+			:scroll-y="true" 
+			:upper-threshold="50" 
+			:lower-threshold="50" 
+			:scroll-top="scrollTop"
+			:scroll-into-view="scrollToView" 
+			:scroll-with-animation="scrollAnimation" 
+			:enable-back-to-top="false"
+			:show-scrollbar="false" 
+			@scrolltoupper="scrolltoupper" 
+			@scrolltolower="scrolltolower"
 		>
-			<view class="x-row msg" v-for="(item, index) in msg" :key="index">
+			<view class="x-row msg" v-for="(item, index) in msg" :key="index" :id="`msg${index}`">
 				<x-thumb src="https://img.la/88x88"></x-thumb>
 				<view class="context">dsadsadsadasdsadasdasdsa{{index}}</view>
 			</view>
 		</scroll-view>
 		<view class="x-bottom x-row edit-bar">
-			<textarea
+			<textarea 
 				placeholder="Message" 
-				:auto-height="true"
-				:fixed="true"
-				cursor-spacing="10" 
+				:auto-height="true" 
+				:fixed="true" 
+				:cursor-spacing="10" 
+				@focus="scrollToBottom" 
+				@blur="reset" 
 			/>
 			<view class="btn">
 				<button type="primary">Send</button>
@@ -24,23 +35,34 @@
 </template>
 
 <script>
+	import msg from './../../data';
 	export default {
 		data() {
 			return {
-				msg: null,
-				scrollTop:0
+				msg: [],
+				scrollTop: 0,
+				scrollToView: '',
+				scrollAnimation: false
 			};
 		},
 		onLoad() {
-			this.fetchData();
+			setTimeout(()=>{
+				this.fetchData();
+			}, 1000);
 		},
-		onShow() {
-			this.scrollTop = 9999999;
-		},
+		// onShow() {
+		// 	this.scrollTop = 99999;
+		// },
 		methods: {
 			fetchData() {
 				uni.setNavigationBarTitle({ title: "好友" });
-				this.msg = new Array(15);
+				this.msg = msg;
+				this.$nextTick(function(){
+					this.scrollTop = 9999;
+					this.$nextTick(function() {
+						this.scrollAnimation = true;
+					});
+				})
 				// if (this._props && this._props.hasOwnProperty('userid')) {
 				// 	const { userid } = this._props;
 				// 	uni.setNavigationBarTitle({ title: `好友${userid+1}` });
@@ -63,6 +85,23 @@
 				// 		uni.navigateBack();
 				// 	}, 1000);
 				// }
+			},
+			scrolltoupper(){
+				
+			},
+			scrolltolower(){
+				
+			},
+			//滚动到底部
+			scrollToBottom(){
+				const msg = this.msg;
+				if(msg && msg.length){
+					this.scrollToView = `msg${msg.length - 1}`;
+				}
+			},
+			//重置scrollToView
+			reset(){
+				this.scrollToView = '';
 			}
 		}
 	}

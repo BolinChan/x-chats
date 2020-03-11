@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/BolinChan/x-chats#readme",
   "dependencies": {
+    "dayjs": "^1.8.22",
     "sha1": "^1.1.1"
   }
 }

@@ -16,7 +16,7 @@
 			<view class="container">
 				<view
 					class="x-row msg"
-					:class="{ 'reversal': item.status === 'sended' }"
+					:class="{ 'reversal': item.status !== 'received' }"
 					v-for="(item, index) in msg" 
 					:key="index" 
 					:id="`msg${index}`"
@@ -38,17 +38,18 @@
 				:auto-height="true" 
 				:fixed="true" 
 				:cursor-spacing="10" 
-				@focus="scrollToBottom" 
-				@blur="reset" 
+				
+				v-model="message"
 			/>
 			<view class="btn">
-				<button type="primary">Send</button>
+				<button type="primary" :disabled="!message" @click="textMsg">Send</button>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import dayjs from 'dayjs';
 	import msgList from '../../data';
 	export default {
 		data() {
@@ -59,13 +60,15 @@
 				scrollAnimation: false,
 				animation: [],
 				animationData: [],
+				message:""
 			};
 		},
 		onLoad() {
 			this.$tools.loading();
-			setTimeout(()=>{
-				this.fetchData();
-			}, 1000);
+			// setTimeout(()=>{
+			// 	this.fetchData();
+			// }, 1000);
+			this.fetchData();
 		},
 		methods: {
 			fetchData() {
@@ -104,11 +107,27 @@
 			// },
 			scrolltoupper(){},
 			scrolltolower(){},
-			// 选取照片
+			// 图片消息
 			async chooseImage(){
 				const { err, data } = await this.$tools.chooseImage();
 				if(!err){
 					console.log(data[0]);
+				}
+			},
+			// 文本消息
+			textMsg() {
+				const content = this.message;
+				let str = content;
+				
+				str = str.replace(/\ +/g,"");
+				str = str.replace(/[\r\n]/g,"");
+				
+				this.message = "";
+				if(str){
+					// 基本组装
+					this.sendMsg({ content, type: 'text' });
+				}else{
+					this.$tools.toast('不能发送空白消息');
 				}
 			},
 			// 滚动到底部
@@ -121,6 +140,23 @@
 			// 重置scrollToView
 			reset(){
 				this.scrollToView = '';
+			},
+			// 发送消息
+			sendMsg(msg) {
+				if(msg){
+					const time = dayjs().format("YYYY-MM-DD hh:mm:ss");
+					msg = {
+						...msg,
+						avatar: 'https://img.la/88x88',
+						nick: '小明',
+						time,
+						status:'temp'
+					}
+					this.msg.push(msg);
+					this.$nextTick(function(){
+						this.scrollToBottom()
+					})
+				}
 			}
 		}
 	}
@@ -149,11 +185,13 @@
 						background-color: #E9E9E9;
 						line-height: 40rpx;
 						padding: 20rpx;
+						min-width: 120rpx;
 						min-height: 80rpx;
 						position: relative;
 						border-radius: $radius;
 						overflow: hidden;
 						word-wrap: break-word;
+						white-space: pre-wrap;
 					}
 				}
 				.reversal{

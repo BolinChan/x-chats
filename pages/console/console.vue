@@ -20,6 +20,7 @@
 					v-for="(item, index) in msg" 
 					:key="index" 
 					:id="`msg${index}`"
+					:animation="animationData[index] || {}"
 				>
 					<view class="avatar" v-if="item.status === 'received'">
 						<x-thumb :src="item.avatar" size="80"></x-thumb>
@@ -55,7 +56,9 @@
 				msg: [],
 				scrollTop: 0,
 				scrollToView: '',
-				scrollAnimation: false
+				scrollAnimation: false,
+				animation: [],
+				animationData: [],
 			};
 		},
 		onLoad() {
@@ -64,37 +67,43 @@
 				this.fetchData();
 			}, 1000);
 		},
-		// onShow() {
-		// 	this.scrollTop = 99999;
-		// },
 		methods: {
 			fetchData() {
 				this.$tools.hideLoading();
 				uni.setNavigationBarTitle({ title: "好友" });
 				this.msg = msgList;
+				
+				// let len = msgList.length;
+				// let delay = 0;
+				// let limit = 100;
+				// let animation = null;
+				// for(let i = 0; len > i; i++) {
+				// 	delay = (msgList.length - i) * limit - limit;
+				// 	animation = uni.createAnimation({
+				// 		duration: 300,
+				// 		timingFunction: "ease",
+				// 		delay
+				// 	})
+				// 	this.animation[i] = animation;
+				// }
+				
 				this.$nextTick(function(){
 					this.scrollTop = 9999;
 					this.$nextTick(function() {
 						this.scrollAnimation = true;
+						// this.opacityAndTranslate();
 					});
 				})
-				// if (this._props && this._props.hasOwnProperty('userid')) {
-				// 	const { userid } = this._props;
-				// 	uni.setNavigationBarTitle({ title: `好友${userid+1}` });
-				//  this.msg = msgList;
-				// } else {
-				// 	this.$tools.toast('好友不存在或已删除！');
-				// 	setTimeout(() => {
-				// 		uni.navigateBack();
-				// 	}, 1000);
-				// }
 			},
-			scrolltoupper(){
-				
-			},
-			scrolltolower(){
-				
-			},
+			// opacityAndTranslate() {
+			// 	let animation = this.animation;
+			// 	for(let i = 0; animation.length > i; i++){
+			// 		animation[i].opacity(1).translateY(0).step()
+			// 		this.animationData[i] = animation[i].export()
+			// 	}
+			// },
+			scrolltoupper(){},
+			scrolltolower(){},
 			// 选取照片
 			async chooseImage(){
 				const { err, data } = await this.$tools.chooseImage();
@@ -129,6 +138,8 @@
 			.container{
 				padding: 15rpx;
 				.msg{
+					// transform: translateY(20px);
+					// opacity: 0;
 					padding: 15rpx;
 					align-items: flex-start;
 					.avatar{

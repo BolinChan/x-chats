@@ -7,7 +7,18 @@
 		"backgroundColorBottom": "#FFFFFF",
 		"pageOrientation": "portrait",
 		"app-plus": {
+			// "titleNView":{
+			// 	"autoBackButton":false,
+			// 	"backButton":{
+			// 		"color":"#367CDC",
+			// 		"fontSize":"22px"
+			// 	},
+			// 	"titleAlign":"center"
+			// },
 			"bounce": "vertical",
+			// "errorPage": url,
+			// "hardwareAccelerated": boolean,
+			// "userSelect": boolean,
 			"softinputNavBar": "none",
 			"scrollIndicator": "none"
 		}

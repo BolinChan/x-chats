@@ -7,7 +7,13 @@
 		</view>
 		<view v-if="list">
 			<view class="list" v-if="list.length">
-				<view class="x-row item" hover-class="item-hover" v-for="(item, index) in list" :key="index" @click="$toNav('console', { userid: index })">
+				<view 
+					class="x-row item" 
+					hover-class="item-hover" 
+					v-for="(item, index) in list" 
+					:key="index" 
+					@click="$toNav('console', { userid: index })"
+				>
 					<view class="thumb">
 						<x-thumb src="https://img.la/110x110" size="110"></x-thumb>
 					</view>

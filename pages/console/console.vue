@@ -25,7 +25,12 @@
 					<view class="avatar" v-if="item.status === 'received'">
 						<x-thumb :src="item.avatar" size="80"></x-thumb>
 					</view>
-					<view class="context">{{item.content}}</view>
+					<view class="context" v-if="item.type === 'text'">
+						{{item.content}}
+					</view>
+					<view class="image" v-if="item.type === 'image'">
+						<image :src="item.content" mode="widthFix"></image>
+					</view>
 				</view>
 			</view>
 		</scroll-view>
@@ -38,7 +43,6 @@
 				:auto-height="true" 
 				:fixed="true" 
 				:cursor-spacing="10" 
-				
 				v-model="message"
 			/>
 			<view class="btn">
@@ -111,7 +115,8 @@
 			async chooseImage(){
 				const { err, data } = await this.$tools.chooseImage();
 				if(!err){
-					console.log(data[0]);
+					const content = data[0];
+					this.sendMsg({ content, type:'image' })
 				}
 			},
 			// 文本消息
@@ -192,6 +197,15 @@
 						overflow: hidden;
 						word-wrap: break-word;
 						white-space: pre-wrap;
+					}
+					.image{
+						border-radius: $radius;
+						width: 250rpx;
+						height: 250rpx;
+						overflow: hidden;
+						image{
+							width: 100%;
+						}
 					}
 				}
 				.reversal{

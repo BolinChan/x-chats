@@ -3,8 +3,8 @@ import { isUrl, fetch, download } from "../services/request";
 const sha1 = require('sha1');
 
 // 富文本图片样式设置
-export const richTextReplace = (text = '') => {
-	if(text) {
+export const richTextReplace = (text = "") => {
+	if (text) {
 		const regex = new RegExp('<img', 'gi');
 		text = text.replace(regex, `<img style="max-width: 100%;"`);
 	}
@@ -12,8 +12,14 @@ export const richTextReplace = (text = '') => {
 }
 
 // sha1加密
-export const pwd2sha1  = (val) => {
-	return val? sha1(val): '';
+export const pwd2sh1 = (val = "") => {
+	if (val) {
+		val = val.trim();
+		if (val) {
+			val = sha1(val);
+		}
+	}
+	return val;
 }
 
 // 获取缓存
@@ -27,34 +33,40 @@ export const getStorageSync = (key) => {
 };
 
 // 选择图片
-/**
- * @description 选择图片
- * @param {number=}  count
- * @param {Object=}  payload
- * @return {Object}
- */
 export const chooseImage = (count = 1, payload = {}) => new Promise((resolve) => {
 	uni.chooseImage({
 		count,
-		success: ({ tempFilePaths }) => resolve({ err: false, msg: "获取图片成功~", data: tempFilePaths }),
-		fail: () => resolve({ err: true, msg: "获取图片失败！", data: "" }),
+		success: ({ tempFilePaths }) => resolve({
+			err: false,
+			msg: "获取图片成功~",
+			data: tempFilePaths
+		}),
+		fail: () => resolve({
+			err: true,
+			msg: "获取图片失败！",
+			data: ""
+		}),
 		...payload
 	});
 });
 
 // 消息提示
 export const toast = (title = "", icon = "none", payload = {}) => {
-	hideLoading();
-	if (!title) return;
-	if (typeof title !== "string") {
-		if('err' in title) {
-			if (!title.err) icon = "success";
+	if(typeof title !== "string") {
+		if('err' in title && 'msg' in title){
+			if(!title.err){
+				icon = "success";
+			}
 			title = title.msg;
 		} else {
-			title = '';
+			title = "";
 		}
 	}
-	if (title) uni.showToast({ icon, title, ...payload });
+	title = title.trim();
+	if(title) {
+		hideLoading();
+		uni.showToast({ icon, title, ...payload })
+	}
 };
 
 // loading提示框(≤30s)
@@ -72,7 +84,7 @@ const startLoading = () => {
 	timer = setTimeout(hideLoading, 30000);
 };
 export const hideLoading = () => {
-	if(delay){
+	if (delay) {
 		clearTimeout(delay);
 		delay = null;
 	}
@@ -87,8 +99,16 @@ export const hideLoading = () => {
 export const login = provider => new Promise((resolve) => {
 	uni.login({
 		provider,
-		success: data => resolve({ err: false, msg: "登录成功~", data }),
-		fail: () => resolve({ err: true, msg: "登录失败！", data: "" })
+		success: data => resolve({
+			err: false,
+			msg: "登录成功~",
+			data
+		}),
+		fail: () => resolve({
+			err: true,
+			msg: "登录失败！",
+			data: ""
+		})
 	});
 });
 
@@ -96,8 +116,16 @@ export const login = provider => new Promise((resolve) => {
 export const share = (provider, payload = {}) => new Promise((resolve) => {
 	uni.share({
 		provider,
-		success: () => resolve({ err: false, msg: "分享成功~", data: "" }),
-		fail: () => resolve({ err: true, msg: "分享失败！", data: "" }),
+		success: () => resolve({
+			err: false,
+			msg: "分享成功~",
+			data: ""
+		}),
+		fail: () => resolve({
+			err: true,
+			msg: "分享失败！",
+			data: ""
+		}),
 		...payload
 	});
 });
@@ -111,46 +139,56 @@ export const saveImageToPhotosAlbum = (filePath) => new Promise(async (resolve) 
 	if (filePath) {
 		uni.saveImageToPhotosAlbum({
 			filePath,
-			success: () => resolve({ err: false, msg: '保存成功~', data: '' }),
-			fail: () => resolve({ err: true, msg: '保存失败！', data: '' })
+			success: () => resolve({
+				err: false,
+				msg: '保存成功~',
+				data: ''
+			}),
+			fail: () => resolve({
+				err: true,
+				msg: '保存失败！',
+				data: ''
+			})
 		})
 	}
 });
 
 // 调用第三方应用
 export const openURL = url => new Promise((resolve) => {
-	plus.runtime.openURL(url, () => resolve({ err: true, msg: "打开失败，请确保应用已安装！", data: "" }));
+	plus.runtime.openURL(url, () => resolve({
+		err: true,
+		msg: "打开失败，请确保应用已安装！",
+		data: ""
+	}));
 });
 
 // 更新APPwgt文件
-export const updateWgt = () => {
-	return new Promise(async (reslove, reject) => {
-		plus.runtime.getProperty(plus.runtime.appid, async (widgetInfo) => {
-			let res = await fetch(config.wgt_url, widgetInfo);
-			const { data, err, msg } = res;
-			if (!err) {
-				const { update, wgtUrl } = data;
-				if (update && wgtUrl) {
-					uni.showLoading({ title: '正在更新，请稍后', mask: true });
-					uni.hideLoading();
-					plus.downloader.createDownload(
-						wgtUrl, 
-						{ filename: '_doc/update/' + widgetInfo.name + '/' + new Date().getTime() + '/' },
-						(res, code) => {
-							uni.hideLoading();
-							plus.runtime.install(
-								res.filename, 
-								{ force: false },
-								(res) => { plus.runtime.restart() },
-								(e) => { uni.redirectTo({ url: '/pages/index/index' }) }
-							);
-						}
-					).start();
-				}
+export const updateWgt = () => new Promise(() => {
+	const url = "/pages/index/index";
+	plus.runtime.getProperty(plus.runtime.appid, async (widgetInfo) => {
+		const { err, data } = await fetch(config.wgt_url, widgetInfo);
+		if (!err) {
+			const { update, wgtUrl } = data;
+			if (update && wgtUrl) {
+				loading("正在更新，请稍候~");
+				plus.downloader.createDownload(
+					wgtUrl, 
+					{ filename: '_doc/update/' + widgetInfo.name + '/' + new Date().getTime() + '/' },
+					(res) => {
+						hideLoading();
+						plus.runtime.install(
+							res.filename, 
+							{ force: false },
+							() => plus.runtime.restart(),
+							() => uni.reLaunch({ url })
+						);
+					}
+				).start();
 			} else {
-				uni.hideLoading();
-				uni.redirectTo({ url: '/pages/index/index' });
+				uni.reLaunch({ url });
 			}
-		});
+		} else {
+			uni.reLaunch({ url });
+		}
 	});
-}
+})

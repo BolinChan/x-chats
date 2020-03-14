@@ -1,11 +1,11 @@
 <script>
 	export default {
-		onLaunch: function() {
+		onLaunch: async function() {
 			// #ifdef APP-PLUS
 			if (process.env.NODE_ENV === 'development') {
 				uni.setKeepScreenOn({ keepScreenOn: true });
 			} else {
-				this.$tools.updateWgt();
+				await this.$tools.updateWgt();
 			}
 			// #endif
 		}
@@ -102,13 +102,13 @@
 	.button-hover[type='primary'] {
 		background: $main-color;
 	}
-	
+
 	button[type='default'] {
 		background: none;
 		color: $main-color;
 		border: 2rpx solid $main-color;
 	}
-	
+
 	.button-hover[type='default'] {
 		background: none;
 		color: $main-color;
@@ -199,8 +199,8 @@
 	.x-btn-area {
 		padding: 60rpx 30rpx;
 	}
-	
-	.x-square{
+
+	.x-square {
 		padding-bottom: 100%;
 		height: 0;
 		word-wrap: break-word;

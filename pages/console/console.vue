@@ -1,16 +1,21 @@
 <template>
 	<view class="console">
 		<scroll-view 
-			class="msgs"
-			scroll-y
-			:scroll-top="scrollTop"
+			class="msgs" 
+			scroll-y 
+			:scroll-top="scrollTop" 
 			:scroll-into-view="scrollToView" 
 			:scroll-with-animation="scrollAnimation"
 			scroll-anchoring
 		>
 			<view class="container">
-				<view class="x-row msg" :class="{ 'reversal': item.status !== 'received' }" v-for="(item, index) in msg" :key="index"
-				 :id="`msg${index}`" :animation="animationData[index] || {}">
+				<view 
+					class="x-row msg" 
+					:class="{ 'reversal': item.status !== 'received' }" 
+					v-for="(item, index) in msg" 
+					:key="index"
+					:id="`msg${index}`"
+				>
 					<view class="avatar" v-if="item.status === 'received'">
 						<x-thumb :src="item.avatar" size="80"></x-thumb>
 					</view>
@@ -24,7 +29,7 @@
 			</view>
 		</scroll-view>
 		<view class="x-bottom x-row edit-bar">
-			<view class="action" @click="chooseImage">
+			<view class="action" @click="imgMsg">
 				<image src="/static/console/plus.png" mode="widthFix"></image>
 			</view>
 			<input 
@@ -33,22 +38,9 @@
 				placeholder="Message" 
 				cursor-spacing="10" 
 				confirm-type="send" 
-				confirm-hold 
-				v-model="message"
+				confirm-hold v-model="message"
 				@confirm="textMsg" 
 			/>
-			<!-- <textarea 
-				class="editer" 
-				placeholder="Message" 
-				:auto-height="true" 
-				:fixed="true" 
-				:cursor-spacing="10" 
-				v-model="message"
-				:focus="focus"
-			/>
-			<view class="btn">
-				<button type="primary" :disabled="!message" @click="textMsg">Send</button>
-			</view> -->
 		</view>
 	</view>
 </template>
@@ -56,6 +48,8 @@
 <script>
 	import dayjs from 'dayjs';
 	import msgList from '../../data';
+	const format = "YYYY-MM-DD hh:mm";
+	let isLimit = false;
 	export default {
 		data() {
 			return {
@@ -63,117 +57,87 @@
 				scrollTop: 0,
 				scrollToView: '',
 				scrollAnimation: false,
-				animation: [],
-				animationData: [],
 				message: ""
 			};
 		},
 		onLoad() {
 			this.$tools.loading();
-			// setTimeout(()=>{
-			// 	this.fetchData();
-			// }, 1000);
 			this.fetchData();
 		},
 		methods: {
 			fetchData() {
 				this.$tools.hideLoading();
-				uni.setNavigationBarTitle({
-					title: "好友"
-				});
+				uni.setNavigationBarTitle({ title: "好友" });
 				this.msg = msgList;
-
-				// let len = msgList.length;
-				// let delay = 0;
-				// let limit = 100;
-				// let animation = null;
-				// for(let i = 0; len > i; i++) {
-				// 	delay = (msgList.length - i) * limit - limit;
-				// 	animation = uni.createAnimation({
-				// 		duration: 300,
-				// 		timingFunction: "ease",
-				// 		delay
-				// 	})
-				// 	this.animation[i] = animation;
-				// }
 
 				this.$nextTick(function() {
 					this.scrollTop = 9999;
 					this.$nextTick(function() {
 						this.scrollAnimation = true;
-						// this.opacityAndTranslate();
 					});
 				})
 			},
-			// opacityAndTranslate() {
-			// 	let animation = this.animation;
-			// 	for(let i = 0; animation.length > i; i++){
-			// 		animation[i].opacity(1).translateY(0).step()
-			// 		this.animationData[i] = animation[i].export()
-			// 	}
-			// },
-			scrolltoupper() {},
-			scrolltolower() {},
-			// 图片消息
-			async chooseImage() {
-				const {
-					err,
-					data
-				} = await this.$tools.chooseImage();
+			async imgMsg() {
+				const { err, data } = await this.$tools.chooseImage();
 				if (!err) {
 					const content = data[0];
-					this.sendMsg({
-						content,
-						type: 'image'
-					})
+					this.sendMsg({ content, type: 'image' })
 				}
 			},
-			// 文本消息
-			textMsg(e) {
+			textMsg() {
 				const content = this.message;
-				let str = content;
-
-				str = str.replace(/\ +/g, "");
-				str = str.replace(/[\r\n]/g, "");
-
+				let str = this.message.trimAll();
 				this.message = "";
-				if (str) {
-					// 基本组装
-					this.sendMsg({
-						content,
-						type: 'text'
-					});
-				} else {
-					this.$tools.toast('不能发送空白消息');
+				if (!str) {
+					return this.$tools.toast('不能发送空白消息！');
 				}
+				this.sendMsg({ content, type: 'text' });
 			},
-			// 滚动到底部
 			scrollToBottom() {
 				const msg = this.msg;
 				if (msg && msg.length) {
 					this.scrollToView = `msg${msg.length - 1}`;
 				}
 			},
-			// 重置scrollToView
-			reset() {
-				this.scrollToView = '';
-			},
-			// 发送消息
 			sendMsg(msg) {
 				if (msg) {
-					const time = dayjs().format("YYYY-MM-DD hh:mm:ss");
 					msg = {
 						...msg,
 						avatar: 'https://img.la/88x88',
 						nick: '小明',
-						time,
+						time: dayjs().format(format),
 						status: 'temp'
 					}
-					this.msg.push(msg);
-					this.$nextTick(function() {
-						this.scrollToBottom()
-					})
+					this.receiveMsg(msg);
+					
+					// simulated msg
+					setTimeout(() => {
+						msg = {
+							...msg,
+							avatar: '/static/logo.png',
+							nick: '好友A',
+							time: dayjs().format(format),
+							status: 'received'
+						}
+						this.receiveMsg(msg);
+					}, 2000);
 				}
+			},
+			receiveMsg(msg) {
+				this.msg.push(msg);
+				this.$nextTick(this.scrollToBottom);
+				const { status } = msg;
+				if (status === 'received') {
+					if (!isLimit) {
+						uni.vibrateLong({ success: this.limitVibrate })
+					}
+				}
+			},
+			limitVibrate() {
+				isLimit = true;
+				setTimeout(() => {
+					isLimit = false;
+				}, 1000);
 			}
 		}
 	}
@@ -195,8 +159,6 @@
 				padding: 15rpx;
 
 				.msg {
-					// transform: translateY(20px);
-					// opacity: 0;
 					padding: 15rpx;
 					align-items: flex-start;
 
@@ -272,15 +234,6 @@
 				padding-right: 20rpx;
 				border-radius: $radius;
 			}
-
-			// .btn{
-			// 	padding-left: 20rpx;
-			// 	button{
-			// 		width: 88rpx;
-			// 		height: $basehei;
-			// 		border-radius: 10rpx;
-			// 	}
-			// }
 		}
 	}
 </style>

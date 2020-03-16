@@ -86,7 +86,7 @@
 			},
 			textMsg() {
 				const content = this.message;
-				let str = this.message.trimAll();
+				let str = content.trimAll();
 				this.message = "";
 				if (!str) {
 					return this.$tools.toast('不能发送空白消息！');

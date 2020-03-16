@@ -1,8 +1,13 @@
 <template>
 	<view class="console">
-		<scroll-view class="msgs" :scroll-y="true" :upper-threshold="50" :lower-threshold="50" :scroll-top="scrollTop"
-		 :scroll-into-view="scrollToView" :scroll-with-animation="scrollAnimation" :enable-back-to-top="false"
-		 :show-scrollbar="false" @scrolltoupper="scrolltoupper" @scrolltolower="scrolltolower">
+		<scroll-view 
+			class="msgs"
+			scroll-y
+			:scroll-top="scrollTop"
+			:scroll-into-view="scrollToView" 
+			:scroll-with-animation="scrollAnimation"
+			scroll-anchoring
+		>
 			<view class="container">
 				<view class="x-row msg" :class="{ 'reversal': item.status !== 'received' }" v-for="(item, index) in msg" :key="index"
 				 :id="`msg${index}`" :animation="animationData[index] || {}">
@@ -33,6 +38,7 @@
 				@confirm="textMsg" 
 			/>
 			<!-- <textarea 
+				class="editer" 
 				placeholder="Message" 
 				:auto-height="true" 
 				:fixed="true" 
@@ -183,6 +189,7 @@
 			right: 0;
 			top: 0;
 			bottom: $tabbar-hei;
+			overflow-anchor: auto;
 
 			.container {
 				padding: 15rpx;

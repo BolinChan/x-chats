@@ -1,6 +1,6 @@
 <template>
-	<view
-		class="x-thumb"
+	<view 
+		class="x-thumb" 
 		:style="{
 			boxShadow: shadow ? '0 2px 8px rgba(0, 0, 0, 0.15)' : 'none',
 			width: calcSize,
@@ -15,20 +15,20 @@
 <script>
 	const sizes = [
 		{
-			size: 'min',
+			size: "min",
 			num: 44
 		},
 		{
-			size: 'mid',
+			size: "mid",
 			num: 88
 		},
 		{
-			size: 'big',
+			size: "big",
 			num: 160
 		}
 	];
 	export default {
-		name: 'x-thumb',
+		name: "x-thumb",
 		props: {
 			src: {
 				type: String,
@@ -36,11 +36,11 @@
 			},
 			size: {
 				type: String,
-				default: 'mid'
+				default: "mid"
 			},
 			shape: {
 				type: String,
-				default: 'circle'
+				default: "circle"
 			},
 			shadow: {
 				type: Boolean,
@@ -83,6 +83,7 @@
 <style scoped lang="scss">
 	.x-thumb {
 		overflow: hidden;
+
 		image {
 			height: 100%;
 		}

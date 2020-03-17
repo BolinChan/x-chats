@@ -12,41 +12,47 @@
 
 <script>
 	export default {
-		name: 'x-upload',
+		name: "x-upload",
 		props: {
 			type: {
 				type: String,
-				default: ''
+				default: ""
 			}
 		},
 		data() {
 			return {
-				thumb: '',
-				status: 'init'
+				thumb: "",
+				status: "init"
 			};
 		},
 		methods: {
 			async chooseType() {
 				const sourceType = this.type;
-				const payload = sourceType && sourceType.length > 0 ? { sourceType } : {};
+				const payload = sourceType && sourceType.length > 0 ? {
+					sourceType
+				} : {};
 				const res = await this.$tools.chooseImage(1, payload);
 				if (res && !res.err) {
-					this.$emit('change', res);
+					this.$emit("change", res);
 					const url = res.data[0];
 					this.thumb = url;
 					this.upload(url);
 				}
 			},
 			async upload(url) {
-				let payload = { err: true, msg: '图片不存在或已删除！', data: '' };
+				let payload = {
+					err: true,
+					msg: "图片不存在或已删除！",
+					data: ""
+				};
 				if (url) {
-					this.status = 'uploading';
+					this.status = "uploading";
 					const res = await this.$upload(url);
-					this.status = 'done';
-					if(res.err) this.thumb = '';
+					this.status = "done";
+					if (res.err) this.thumb = "";
 					payload = res;
 				}
-				this.$emit('done', payload);
+				this.$emit("done", payload);
 			}
 		},
 		computed: {
@@ -60,14 +66,17 @@
 <style scoped lang="scss">
 	.x-upload {
 		display: inline;
+
 		.thumb {
 			width: 160rpx;
 			height: 160rpx;
 			overflow: hidden;
-			image{
+
+			image {
 				height: 100%;
 			}
 		}
+
 		.mask {
 			position: absolute;
 			width: 100%;

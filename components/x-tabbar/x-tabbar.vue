@@ -8,35 +8,32 @@
 			@click="change(index)"
 		>
 			{{ item }}
-			<view 
-				class="dot" 
-				:style="{ backgroundColor: current == index ? color : '' }"
-			></view>
+			<view class="dot" :style="{ backgroundColor: current == index ? color : '' }"></view>
 		</view>
 	</view>
 </template>
 
 <script>
 	export default {
-		name: 'x-tabbar',
+		name: "x-tabbar",
 		props: {
 			tab: {
 				type: Array,
 				required: true
 			},
 			current: {
-				type: String,
-				default: '0'
+				type: [String, Number],
+				default: 0
 			},
 			color: {
 				type: String,
-				default: ''
+				default: ""
 			}
 		},
 		methods: {
 			change(current) {
 				if (this.current !== current) {
-					this.$emit('change', current);
+					this.$emit("change", current);
 				}
 			}
 		}
@@ -48,11 +45,13 @@
 		overflow: hidden;
 		padding: 0 20rpx;
 		justify-content: space-around;
+
 		.tab {
 			height: 88rpx;
 			padding: 0 10rpx;
 			min-width: 142rpx;
 			color: $info-color;
+
 			.dot {
 				position: absolute;
 				height: 8rpx;
@@ -63,8 +62,10 @@
 				transform: translateX(-50%);
 			}
 		}
+
 		.active {
 			color: $body-color;
+
 			.dot {
 				background-color: $main-color;
 			}

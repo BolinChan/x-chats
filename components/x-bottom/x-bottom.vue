@@ -1,20 +1,24 @@
 <template>
-	<view class="x-bottom" :class="{ 'x-safearea': safearea }" :style="{ backgroundColor }">
+	<view 
+		class="x-bottom" 
+		:class="{ 'x-safearea': safearea }" 
+		:style="{ backgroundColor }"
+	>
 		<slot></slot>
 	</view>
 </template>
 
 <script>
 	export default {
-		name: 'x-bottom',
+		name: "x-bottom",
 		props: {
 			safearea: {
 				type: Boolean,
 				default: true
 			},
-			backgroundColor:{
+			backgroundColor: {
 				type: String,
-				default:'#FFFFFF'
+				default: "#FFFFFF"
 			}
 		}
 	};

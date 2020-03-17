@@ -9,15 +9,15 @@
 
 <script>
 	export default {
-		name: 'x-empty',
+		name: "x-empty",
 		props: {
 			thumb: {
 				type: String,
-				default: '/static/empty.png'
+				default: "/static/empty.png"
 			},
 			title: {
 				type: String,
-				default: '暂无数据'
+				default: "暂无数据"
 			}
 		}
 	};
@@ -32,6 +32,7 @@
 			height: 240rpx;
 			overflow: hidden;
 		}
+
 		.title {
 			color: $info-color;
 			margin-top: 30rpx;

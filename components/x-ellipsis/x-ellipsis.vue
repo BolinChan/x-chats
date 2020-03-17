@@ -6,7 +6,7 @@
 
 <script>
 	export default {
-		name: 'x-ellipsis',
+		name: "x-ellipsis",
 		props: {
 			lines: {
 				type: [Number, String],

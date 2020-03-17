@@ -6,7 +6,7 @@
 				v-for="(item, index) in columns" 
 				:key="index"
 			>
-				{{ item.title || '' }}
+				{{ item.title || "" }}
 			</view>
 		</view>
 		<view 
@@ -27,7 +27,7 @@
 
 <script>
 	export default {
-		name: 'x-list',
+		name: "x-list",
 		props: {
 			columns: {
 				type: Array,
@@ -47,14 +47,17 @@
 			border-bottom: $border;
 			height: 88rpx;
 			padding: 0 20rpx;
+
 			.col {
 				padding: 0 10rpx;
 				text-align: center;
 			}
 		}
+
 		.row:last-child {
 			border: none;
 		}
+
 		.head {
 			color: $info-color;
 		}
